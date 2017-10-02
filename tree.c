@@ -2,21 +2,48 @@
 #include <stdlib.h>
 
 
-typedef struct _oneBitNode
+struct _oneBitNode
 {
 	int nextHop;
 
 	_oneBitNode *left, *right;
 
-}oneBitNode;
+};
 
 
-typedef struct _twoBitNode
+struct _twoBitNode
 {
 	int nextHop;
 	
 	_twoBitNode *oo, *ol, *lo, *ll;
 
-}twoBitNode;
+};
 
 
+_oneBitNode* PrefixTree(char* fileName){
+
+}
+
+void PrintTable(_oneBitNode* root){
+
+}
+
+int LookUp(_oneBitNode* root, char* address){
+
+}
+
+_oneBitNode* InsertPrefix(_oneBitNode* root, char* prefix, int nextHop){
+
+}
+
+_oneBitNode* DeletePrefix(_oneBitNode* root, char* prefix){
+
+}
+
+_twoBitNode* BinaryToTwoBit(_oneBitNode* root){
+
+}
+
+void PrintTableEven(_twoBitNode* root){
+
+}
