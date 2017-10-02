@@ -1,49 +1,52 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "tree.h"
 
 
 struct _oneBitNode
 {
-	int nextHop;
+	unsigned int nextHop;
 
-	_oneBitNode *left, *right;
+	struct _oneBitNode *left, *right;
 
 };
 
 
 struct _twoBitNode
 {
-	int nextHop;
+	unsigned int nextHop;
 	
-	_twoBitNode *oo, *ol, *lo, *ll;
+	struct _twoBitNode *oo, *ol, *lo, *ll;
 
 };
 
 
-_oneBitNode* PrefixTree(char* fileName){
+struct _oneBitNode* PrefixTree(char* fileName){
+    
+    return NULL;
+}
+
+void PrintTable(struct _oneBitNode* root){
 
 }
 
-void PrintTable(_oneBitNode* root){
+int LookUp(struct _oneBitNode* root, char* address){
 
+    return 0;
 }
 
-int LookUp(_oneBitNode* root, char* address){
-
+struct _oneBitNode* InsertPrefix(struct _oneBitNode* root, char* prefix, int nextHop){
+    return NULL;
 }
 
-_oneBitNode* InsertPrefix(_oneBitNode* root, char* prefix, int nextHop){
-
+struct _oneBitNode* DeletePrefix(struct _oneBitNode* root, char* prefix){
+    return NULL;
 }
 
-_oneBitNode* DeletePrefix(_oneBitNode* root, char* prefix){
-
+struct _twoBitNode* BinaryToTwoBit(struct _oneBitNode* root){
+    return NULL;
 }
 
-_twoBitNode* BinaryToTwoBit(_oneBitNode* root){
-
-}
-
-void PrintTableEven(_twoBitNode* root){
+void PrintTableEven(struct _twoBitNode* root){
 
 }

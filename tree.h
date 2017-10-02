@@ -1,4 +1,5 @@
-
+#ifndef tree_h
+#define tree_h
 
 typedef struct _oneBitNode oneBitNode;
 
@@ -17,3 +18,6 @@ oneBitNode* DeletePrefix(oneBitNode* root, char* prefix);
 twoBitNode* BinaryToTwoBit(oneBitNode* root);
 
 void PrintTableEven(twoBitNode* root);
+
+#endif
+
