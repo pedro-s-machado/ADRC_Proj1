@@ -6,8 +6,7 @@
 struct _oneBitNode
 {
 	unsigned int nextHop;
-
-	struct _oneBitNode *left, *right;
+	struct _oneBitNode *o, *l; // o stands for a zero, l stands for a one
 
 };
 
@@ -21,32 +20,32 @@ struct _twoBitNode
 };
 
 
-struct _oneBitNode* PrefixTree(char* fileName){
+oneBitNode* PrefixTree(char* fileName){
     
     return NULL;
 }
 
-void PrintTable(struct _oneBitNode* root){
+void PrintTable(oneBitNode* root){
 
 }
 
-int LookUp(struct _oneBitNode* root, char* address){
+int LookUp(oneBitNode* root, char* address){
 
     return 0;
 }
 
-struct _oneBitNode* InsertPrefix(struct _oneBitNode* root, char* prefix, int nextHop){
+oneBitNode* InsertPrefix(oneBitNode* root, char* prefix, int nextHop){
     return NULL;
 }
 
-struct _oneBitNode* DeletePrefix(struct _oneBitNode* root, char* prefix){
+oneBitNode* DeletePrefix(oneBitNode* root, char* prefix){
     return NULL;
 }
 
-struct _twoBitNode* BinaryToTwoBit(struct _oneBitNode* root){
+twoBitNode* BinaryToTwoBit(oneBitNode* root){
     return NULL;
 }
 
-void PrintTableEven(struct _twoBitNode* root){
+void PrintTableEven(twoBitNode* root){
 
 }

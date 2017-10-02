@@ -5,10 +5,12 @@ typedef struct _oneBitNode oneBitNode;
 
 typedef struct _twoBitNode twoBitNode;
 
+// Tobias
 oneBitNode* PrefixTree(char* fileName);
 
 void PrintTable(oneBitNode* root);
 
+// Pedro
 int LookUp(oneBitNode* root, char* address);
 
 oneBitNode* InsertPrefix(oneBitNode* root, char* prefix, int nextHop);
