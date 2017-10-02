@@ -14,13 +14,24 @@ struct _oneBitNode
 struct _twoBitNode
 {
 	unsigned int nextHop;
-	
-	struct _twoBitNode *oo, *ol, *lo, *ll;
+	struct _twoBitNode *oo, *ol, *lo, *ll; // oo stands for two zeroes, ol stands for zero-one, etc...
 
 };
 
 
-oneBitNode* PrefixTree(char* fileName){
+oneBitNode* PrefixTree(char* filename){
+    printf("Loading prefix table from \"%s\"\n", filename);
+    
+    FILE* file;
+    file = fopen(filename, "r");
+    if (file) {
+        
+        
+        fclose(file);
+    }
+    else {
+        printf("Could not open file \"%s\"\n", filename);
+    }
     
     return NULL;
 }

@@ -6,7 +6,7 @@ typedef struct _oneBitNode oneBitNode;
 typedef struct _twoBitNode twoBitNode;
 
 // Tobias
-oneBitNode* PrefixTree(char* fileName);
+oneBitNode* PrefixTree(char* );
 
 void PrintTable(oneBitNode* root);
 
