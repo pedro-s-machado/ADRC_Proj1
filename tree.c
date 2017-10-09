@@ -42,7 +42,31 @@ void PrintTable(oneBitNode* root){
 
 int LookUp(oneBitNode* root, char* address){
 
-    return 0;
+    int nextHop = -1;
+    int depth = 0;
+
+    oneBitNode* currentNode = root;
+    oneBitNode* nextNode;
+
+    while(currentNode != NULL){
+        
+        if(currentNode->nextHop != -1){
+            nextHop = currentNode->nextHop;
+        }
+
+        if(address[0] == '0'){
+            nextNode = currentNode->o;
+        
+        }else{
+            nextNode = currentNode->l;
+
+        }
+
+        currentNode = nextNode;
+        depth++;
+    }
+
+    return nextHop;
 }
 
 oneBitNode* InsertPrefix(oneBitNode* root, char* prefix, int nextHop){
