@@ -19,7 +19,7 @@ typedef struct _twoBitNode
 
 typedef struct List
 {
-    void *elem;
+    oneBitNode *elem;
     struct List *next;
 
 }List;
@@ -31,12 +31,12 @@ List* insertElem(List *here, void *elem){
     List *new = (List*)malloc(sizeof(List));
     
     if(new == NULL){
-        printf("Error in memory allocation!\n");
+        printf("pError in memory allocation!\n");
         exit(1);
     }
 
     new->elem = elem;
-    new->next == NULL;
+    new->next = NULL;
 
     if(here != NULL){
         
@@ -69,6 +69,7 @@ List* removeElem(List* this){
     return new;
 }
 
+
 oneBitNode* PrefixTree(char* filename){
     printf("Loading prefix table from \"%s\"\n", filename);
     
@@ -88,9 +89,8 @@ oneBitNode* PrefixTree(char* filename){
 
 void PrintTable(oneBitNode* root){
 
-    oneBitNode* currentNode = root;
     List* top = insertElem(NULL, root);
-    
+ 
     List* bottom = top;
 
     printf("prefix \t nextHop");
@@ -98,15 +98,15 @@ void PrintTable(oneBitNode* root){
     while(top != NULL){
 
         //address path needs to be stored in the list
-        if(root->o != NULL){
-            bottom = insertElem(bottom, root->o);
+        if(top->elem->o != NULL){
+            bottom = insertElem(bottom, top->elem->o);
         }
 
-        if(root->l != NULL){
-            bottom = insertElem(bottom, root->l);
+        if(top->elem->l != NULL){
+            bottom = insertElem(bottom, top->elem->l);
         }
 
-        printf("s");
+        printf(" ");
 
     } 
 }
