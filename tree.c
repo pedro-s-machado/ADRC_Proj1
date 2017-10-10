@@ -1,22 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "tree.h"
 
 
-struct _oneBitNode
+typedef struct _oneBitNode
 {
 	unsigned int nextHop;
 	struct _oneBitNode *o, *l; // o stands for a zero, l stands for a one
 
-};
+}oneBitNode;
 
 
-struct _twoBitNode
+typedef struct _twoBitNode
 {
 	unsigned int nextHop;
 	struct _twoBitNode *oo, *ol, *lo, *ll; // oo stands for two zeroes, ol stands for zero-one, etc...
 
-};
+}twoBitNode;
 
 typedef struct List
 {
@@ -94,20 +93,20 @@ void PrintTable(oneBitNode* root){
     
     List* bottom = top;
 
-    print("prefix \t nextHop")
+    printf("prefix \t nextHop");
     
     while(top != NULL){
 
         //address path needs to be stored in the list
         if(root->o != NULL){
-            bottom = insertElem(root->o);
+            bottom = insertElem(bottom, root->o);
         }
 
         if(root->l != NULL){
-            bottom = insertElem(root->l);
+            bottom = insertElem(bottom, root->l);
         }
 
-        print();
+        printf("s");
 
     } 
 }

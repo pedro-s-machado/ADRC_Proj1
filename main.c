@@ -9,6 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "tree.h"
+
 int main(int argc, const char * argv[]) {
     
     printf(" ### ADRC 1° semestre 2017-1018 - Assignment 1 ### \n\n");
