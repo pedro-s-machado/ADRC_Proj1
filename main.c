@@ -30,11 +30,10 @@ int main(int argc, const char * argv[]) {
         bufsize = 0; // have getline allocate a buffer for us
         getline(&line, &bufsize, stdin);
         if (line[0] == 'q') status = 0;
-        else if(line[0] == 'p') InsertPrefix(NULL, testPrefix, 3);
-        else if(line[0] == 'n'){
-            root = PrefixTree("PrefixTable.txt");
-            //printTree2(root);
-        }
+        else if(line[0] == 'i') InsertPrefix(NULL, testPrefix, 3);
+        else if(line[0] == 'n') root = PrefixTree("PrefixTable.txt");
+        else if(line[0] == 'p') printTree2(root);
+        else if(line[0] == 'o') printTree(root, 0, -1);
         else if(line[0] == 'f') printf("Next Hop for %s is %d\n", testPrefix, LookUp(root, testPrefix));
         
     } while (status);

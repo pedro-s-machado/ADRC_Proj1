@@ -76,13 +76,14 @@ List* removeElem(List* this){
     return new;
 }
 
+//Inorder print of the tree
 void printTree(oneBitNode *root, int depth, int s){
 
     int a = depth +1;
     if(root != NULL){
 
         printTree(root->o, a, 0);
-        printf("value = %d, depth = %d s = %d\n", root->nextHop, depth, s);
+        printf("nH = %d, depth = %d (side = %d)\n", root->nextHop, depth, s);
         printTree(root->l, a, 1);
         
     }
@@ -91,8 +92,10 @@ void printTree(oneBitNode *root, int depth, int s){
 }
 
 
-
+//BreathSearch print of the tree
 void printTree2(oneBitNode *root){
+
+    if(root == NULL) return;
 
     List * lista1 = malloc(sizeof(List));
     List *cu1 = lista1;
