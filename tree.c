@@ -159,7 +159,7 @@ void printTree2(oneBitNode *root){
 oneBitNode* PrefixTree(char* filename){
     
     FILE* file;
-    oneBitNode *root = malloc(sizeof(struct _oneBitNode)), *ptr = NULL;
+    struct _oneBitNode *root = malloc(sizeof(struct _oneBitNode)), *ptr = NULL;
     char c;
     _Bool prefix_read = 0, nextHop_read = 0, file_read = 0;
     
@@ -168,32 +168,30 @@ oneBitNode* PrefixTree(char* filename){
     if (file) {
         
         // Intitializing the root of the prefix tree
-        // Destinations without known prefix are always have a Next Hop value of 1
-        root->nextHop = -2;
+        root->nextHop = -1;
         root->o = NULL;
         root->l = NULL;
         ptr = root;
         
         do {
-            //getchar();
-
+            
             while (!prefix_read) {
-                
                 c = fgetc(file);
-                //printf("trip dad=%p o=%p l=%p\n",ptr, ptr->o, ptr->l);
                 if (c == '0') {
-                    if (ptr->o == NULL){
+                    if (ptr->o == NULL) {
                         ptr->o = malloc(sizeof(struct _oneBitNode));
-                        //printf("Novo0(%c) %p\n", c, ptr->o);
                         ptr->o->nextHop = -1;
+                        ptr->o->l = NULL;
+                        ptr->o->o = NULL;
                     }
                     ptr = ptr->o;
                 }
                 else if (c == '1') {
-                    if (ptr->l == NULL){
-                        //printf("Novo1(%c) %p\n",c, ptr->l);   
+                    if (ptr->l == NULL) {
                         ptr->l = malloc(sizeof(struct _oneBitNode));
                         ptr->l->nextHop = -1;
+                        ptr->l->l = NULL;
+                        ptr->l->o = NULL;
                     }
                     ptr = ptr->l;
                 }
@@ -209,7 +207,7 @@ oneBitNode* PrefixTree(char* filename){
 
             while (!nextHop_read) {
                 c = fgetc(file);
-
+                
                 if (c >= '0' && c <= '9') {
                     if (ptr->nextHop < 0) ptr->nextHop = 0;
                     ptr->nextHop = 10*(ptr->nextHop) + atoi(&c);
@@ -276,12 +274,32 @@ void PrintTable(oneBitNode* root){
 
 int LookUp(oneBitNode* root, char* address){
 
-    int nextHop = -1;
-
+    int hops[16];
+    for (int i = 0 ; i < 16 ; i++) hops[i] = -1;
+    
     oneBitNode* currentNode = root;
     oneBitNode* nextNode = NULL;
-
-    while(currentNode != NULL){
+    
+    for (int i = 0 ; i < 16 ; i++) {
+        hops[i] = currentNode->nextHop;
+        if (address[i] == 0 && currentNode->o != NULL)
+            nextNode = currentNode->o;
+        else if (address[i] == 1 && currentNode->l != NULL)
+            nextNode = currentNode->l;
+        else {
+            printf("Not a correct address...\n");
+            return -1;
+        }
+        if (nextNode != NULL)
+            currentNode = nextNode;
+        else {
+            while (hops[i] < 0 && i > 0) {
+                i--;
+            }
+            return hops[i];
+        }
+    }
+    /*while(currentNode != NULL){
         
         if(currentNode->nextHop != -1){
             nextHop = currentNode->nextHop;
@@ -298,9 +316,9 @@ int LookUp(oneBitNode* root, char* address){
         }
 
         currentNode = nextNode;
-    }
-
-    return nextHop;
+    }*/
+    printf("Error...\n");
+    return -1;
 }
 
 oneBitNode* InsertPrefix(oneBitNode* root, char* prefix, int nextHop){
