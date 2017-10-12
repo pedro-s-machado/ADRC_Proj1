@@ -274,8 +274,8 @@ void PrintTable(oneBitNode* root){
 
 int LookUp(oneBitNode* root, char* address){
 
-    int hops[16];
-    for (int i = 0 ; i < 16 ; i++) hops[i] = -1;
+    int hops[16], i = 0;
+    for (i = 0 ; i < 16 ; i++) hops[i] = -1;
     
     oneBitNode* currentNode = root;
     oneBitNode* nextNode = NULL;
@@ -292,13 +292,18 @@ int LookUp(oneBitNode* root, char* address){
         }
         if (nextNode != NULL)
             currentNode = nextNode;
-        else {
-            while (hops[i] < 0 && i > 0) {
-                i--;
-            }
-            return hops[i];
-        }
+        else
+            break;
     }
+    
+    // Finished listing all possible next hops and storing them in array hops[]
+    while (hops[i] < 0 && i > 0) i--;
+    // and returning the one corresponding to the longest prefix for which there is a next hop in the table
+    return hops[i];
+    
+    
+    
+    
     /*while(currentNode != NULL){
         
         if(currentNode->nextHop != -1){
@@ -317,8 +322,6 @@ int LookUp(oneBitNode* root, char* address){
 
         currentNode = nextNode;
     }*/
-    printf("Error...\n");
-    return -1;
 }
 
 oneBitNode* InsertPrefix(oneBitNode* root, char* prefix, int nextHop){
