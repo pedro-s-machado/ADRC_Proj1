@@ -13,13 +13,15 @@ void PrintTable(oneBitNode* root);
 // Pedro
 int LookUp(oneBitNode* root, char* address);
 
-oneBitNode* InsertPrefix(oneBitNode* root, char* prefix, int nextHop);
+oneBitNode* InsertPrefix(oneBitNode* root, char prefix[16], int nextHop);
 
 oneBitNode* DeletePrefix(oneBitNode* root, char* prefix);
 
 twoBitNode* BinaryToTwoBit(oneBitNode* root);
 
 void PrintTableEven(twoBitNode* root);
+
+void printTree(oneBitNode *root, int depth);
 
 #endif
 

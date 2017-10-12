@@ -16,25 +16,31 @@ int main(int argc, const char * argv[]) {
     printf(" ### ADRC 1° semestre 2017-1018 - Assignment 1 ### \n\n");
     printf("To list all possible commands, type help and press enter, \n\n");
     
-    /*
     char *line = NULL;
     char **args = NULL;
     int status = 1;
     size_t bufsize = 0;
+
+    oneBitNode * root = NULL;
+ 
+    char testPrefix[16] = "010";
     
     do {
         printf(" >");
         bufsize = 0; // have getline allocate a buffer for us
         getline(&line, &bufsize, stdin);
-        if (line[0] == 'a') status = 0;
+        if (line[0] == 'q') status = 0;
+        else if(line[0] == 'p') InsertPrefix(NULL, testPrefix, 3);
+        else if(line[0] == 'n'){
+            root = PrefixTree("PrefixTable.txt");
+            printTree(root, 0);
+        }
+        else if(line[0] == 'f') printf("Next Hop for %s is %d\n", testPrefix, LookUp(root, testPrefix));
         
     } while (status);
     
     free(line);
     free(args);
-     */
-    
-    oneBitNode *prefTree = PrefixTree("prefixtable.txt");
     
     return 0;
 }

@@ -89,6 +89,7 @@ oneBitNode* PrefixTree(char* filename){
         ptr = root;
         
         do {
+
             while (!prefix_read) {
                 c = fgetc(file);
                 
@@ -118,12 +119,15 @@ oneBitNode* PrefixTree(char* filename){
                     if (ptr->nextHop < 0) ptr->nextHop = 0;
                     ptr->nextHop = 10*(ptr->nextHop) + (int)c;
                 }
-                else if (c == '\t') {
+                else if (c == '\t' || c == ' ') {
                     // do nothing...
                 }
                 else if (c == '\n') {
                     nextHop_read = 1;
-                    if (c == EOF) file_read = 1;
+                }
+                else if (c == EOF){
+                    nextHop_read = 1;
+                    file_read = 1;
                 }
                 else {
                     printf("Prefix file corrupt, aborting...\n\n");
@@ -134,7 +138,7 @@ oneBitNode* PrefixTree(char* filename){
             
             prefix_read = 0;
             nextHop_read = 0;
-            
+
         } while (!file_read);
         
         fclose(file);
@@ -146,6 +150,19 @@ oneBitNode* PrefixTree(char* filename){
     }
     
     return root;
+}
+
+void printTree(oneBitNode *root, int depth){
+
+    if(root != NULL){
+
+        printTree(root->o, depth+1);
+        printf("value = %d, depth = %d\n", root->nextHop, depth );
+        printTree(root->l, depth+1);
+        
+    }
+    return;
+
 }
 
 void PrintTable(oneBitNode* root){
@@ -181,7 +198,7 @@ int LookUp(oneBitNode* root, char* address){
     oneBitNode* nextNode = NULL;
 
     while(currentNode != NULL){
-        
+        printf("depth = %d\n", depth);    
         if(currentNode->nextHop != -1){
             nextHop = currentNode->nextHop;
         }
@@ -204,8 +221,48 @@ int LookUp(oneBitNode* root, char* address){
 }
 
 oneBitNode* InsertPrefix(oneBitNode* root, char* prefix, int nextHop){
-    return NULL;
+    
+    oneBitNode *currentNode = root;
+    int depth = 0;
+    int size;
+
+    for(size=0;prefix[size]!='\0'; size++);
+    printf("Prefix Size (%d) \n", size);
+    
+    while(size-1 > depth){
+
+        while(currentNode != NULL){
+            
+            if(prefix[depth] == '0'){
+                currentNode = currentNode->o;
+            }
+            else if(prefix[depth] == '1'){
+                currentNode = currentNode->l;
+            }
+            else{
+                printf("Address is not binary!\n");
+            }
+
+            depth++;
+        }
+
+        if(depth == size-1){
+            //if exist replace the nextHop value
+            if(currentNode != NULL){
+                currentNode->nextHop = nextHop;
+            }
+            //if doesn't exist create a new node
+            else{
+                
+            }
+        }
+        else{
+
+        }
+    }
+    return root;
 }
+
 
 oneBitNode* DeletePrefix(oneBitNode* root, char* prefix){
     return NULL;
