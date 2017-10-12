@@ -277,13 +277,12 @@ void PrintTable(oneBitNode* root){
 int LookUp(oneBitNode* root, char* address){
 
     int nextHop = -1;
-    int depth = 0;
 
     oneBitNode* currentNode = root;
     oneBitNode* nextNode = NULL;
 
     while(currentNode != NULL){
-        //printf("depth = %d\n", depth);    
+        
         if(currentNode->nextHop != -1){
             nextHop = currentNode->nextHop;
         }
@@ -299,7 +298,6 @@ int LookUp(oneBitNode* root, char* address){
         }
 
         currentNode = nextNode;
-        depth++;
     }
 
     return nextHop;
