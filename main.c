@@ -16,6 +16,7 @@ int main(int argc, const char * argv[]) {
     printf(" ### ADRC 1° semestre 2017-1018 - Assignment 1 ### \n\n");
     printf("To list all possible commands, type help and press enter, \n\n");
     
+    /*
     char *line = NULL;
     char **args = NULL;
     int status = 1;
@@ -31,6 +32,9 @@ int main(int argc, const char * argv[]) {
     
     free(line);
     free(args);
+     */
+    
+    oneBitNode *prefTree = PrefixTree("prefixtable.txt");
     
     return 0;
 }

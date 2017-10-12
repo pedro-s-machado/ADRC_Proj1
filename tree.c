@@ -4,7 +4,7 @@
 
 typedef struct _oneBitNode
 {
-	unsigned int nextHop;
+    int nextHop;
 	struct _oneBitNode *o, *l; // o stands for a zero, l stands for a one
 
 }oneBitNode;
@@ -12,7 +12,7 @@ typedef struct _oneBitNode
 
 typedef struct _twoBitNode
 {
-	unsigned int nextHop;
+	int nextHop;
 	struct _twoBitNode *oo, *ol, *lo, *ll; // oo stands for two zeroes, ol stands for zero-one, etc...
 
 }twoBitNode;
@@ -71,20 +71,81 @@ List* removeElem(List* this){
 
 
 oneBitNode* PrefixTree(char* filename){
-    printf("Loading prefix table from \"%s\"\n", filename);
     
     FILE* file;
+    oneBitNode *root = malloc(sizeof(struct _oneBitNode)), *ptr = NULL;
+    char c;
+    _Bool prefix_read = 0, nextHop_read = 0, file_read = 0;
+    
+    printf("Loading prefix table from \"%s\"\n", filename);
     file = fopen(filename, "r");
     if (file) {
         
+        // Intitializing the root of the prefix tree
+        // Destinations without known prefix are always have a Next Hop value of 1
+        root->nextHop = 1;
+        root->o = NULL;
+        root->l = NULL;
+        ptr = root;
+        
+        do {
+            while (!prefix_read) {
+                c = fgetc(file);
+                
+                if (c == '0') {
+                    if (ptr->o == NULL) ptr->o = malloc(sizeof(struct _oneBitNode));
+                    ptr = ptr->o;
+                    ptr->nextHop = -1;
+                }
+                else if (c == '1') {
+                    if (ptr->l == NULL) ptr->l = malloc(sizeof(struct _oneBitNode));
+                    ptr = ptr->l;
+                    ptr->nextHop = -1;
+                }
+                else if (c == '\t' || c == ' ') {
+                    // Only tabulations and spaces should seperate the prefix and next hop values.
+                    prefix_read = 1;
+                }
+                else {
+                    printf("Prefix file corrupt, aborting...\n\n");
+                    exit(-1);
+                }
+            }
+            while (!nextHop_read) {
+                c = fgetc(file);
+                
+                if (c >= '0' && c <= '9') {
+                    if (ptr->nextHop < 0) ptr->nextHop = 0;
+                    ptr->nextHop = 10*(ptr->nextHop) + (int)c;
+                }
+                else if (c == '\t') {
+                    // do nothing...
+                }
+                else if (c == '\n') {
+                    nextHop_read = 1;
+                    if (c == EOF) file_read = 1;
+                }
+                else {
+                    printf("Prefix file corrupt, aborting...\n\n");
+                    // Free memory allocated for the tree...
+                    exit(-1);
+                }
+            }
+            
+            prefix_read = 0;
+            nextHop_read = 0;
+            
+        } while (!file_read);
         
         fclose(file);
+        printf("Prefix file reading completed.\n");
     }
     else {
-        printf("Could not open file \"%s\"\n", filename);
+        printf("Could not open file \"%s\", aborting...\n\n", filename);
+        free(root);
     }
     
-    return NULL;
+    return root;
 }
 
 void PrintTable(oneBitNode* root){
@@ -117,7 +178,7 @@ int LookUp(oneBitNode* root, char* address){
     int depth = 0;
 
     oneBitNode* currentNode = root;
-    oneBitNode* nextNode;
+    oneBitNode* nextNode = NULL;
 
     while(currentNode != NULL){
         
