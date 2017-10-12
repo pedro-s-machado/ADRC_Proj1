@@ -21,7 +21,9 @@ twoBitNode* BinaryToTwoBit(oneBitNode* root);
 
 void PrintTableEven(twoBitNode* root);
 
-void printTree(oneBitNode *root, int depth);
+void printTree(oneBitNode *root, int depth, int s);
+
+void printTree2(oneBitNode *root);
 
 #endif
 

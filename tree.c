@@ -24,6 +24,13 @@ typedef struct List
 
 }List;
 
+typedef struct List1
+{
+    int a;
+    int side;
+    struct List1 *next;
+}List1;
+
 
 //Inserts elem in list after 'here' 
 List* insertElem(List *here, void *elem){
@@ -69,6 +76,82 @@ List* removeElem(List* this){
     return new;
 }
 
+void printTree(oneBitNode *root, int depth, int s){
+
+    int a = depth +1;
+    if(root != NULL){
+
+        printTree(root->o, a, 0);
+        printf("value = %d, depth = %d s = %d\n", root->nextHop, depth, s);
+        printTree(root->l, a, 1);
+        
+    }
+    return;
+
+}
+
+
+
+void printTree2(oneBitNode *root){
+
+    List * lista1 = malloc(sizeof(List));
+    List *cu1 = lista1;
+    List *aux= NULL;
+
+    lista1->next = NULL;
+    lista1->elem = root;
+
+    List1 * lista2 = malloc(sizeof(List1));
+    List1 *cu2 = lista2;
+    List1 *aux2=NULL;
+
+    lista2->next = NULL;
+    lista2->a = 0;
+
+    while(lista1 != NULL){
+
+        if(lista1->elem->o != NULL){
+            aux = malloc(sizeof(List));
+            aux->elem = lista1->elem->o;
+            aux->next = NULL;
+            cu1->next = aux;
+            cu1 = aux;
+
+            aux2 = malloc(sizeof(List1));
+            aux2->a = lista2->a +1;
+            aux2->side = 0;
+            aux2->next = NULL;
+            cu2->next = aux2;
+            cu2 = aux2;
+        }
+
+        if(lista1->elem->l != NULL){
+            aux = malloc(sizeof(List));
+            aux->elem = lista1->elem->l;
+            aux->next = NULL;
+            cu1->next = aux;
+            cu1 = aux;
+
+            aux2 = malloc(sizeof(List1));
+            aux2->a = lista2->a +1;
+            aux2->side = 1;
+            aux2->next = NULL;
+            cu2->next = aux2;
+            cu2 = aux2;
+        }
+
+        printf("nH = %d - depth = %d (side = %d)\n", lista1->elem->nextHop, lista2->a, lista2->side);
+        aux = lista1;
+        lista1 = aux->next;
+        aux2 = lista2;
+        lista2 = aux2->next;
+
+        free(aux);
+        free(aux2);
+
+    }
+}
+
 
 oneBitNode* PrefixTree(char* filename){
     
@@ -83,25 +166,33 @@ oneBitNode* PrefixTree(char* filename){
         
         // Intitializing the root of the prefix tree
         // Destinations without known prefix are always have a Next Hop value of 1
-        root->nextHop = 1;
+        root->nextHop = -2;
         root->o = NULL;
         root->l = NULL;
         ptr = root;
         
         do {
+            //getchar();
 
             while (!prefix_read) {
-                c = fgetc(file);
                 
+                c = fgetc(file);
+                //printf("trip dad=%p o=%p l=%p\n",ptr, ptr->o, ptr->l);
                 if (c == '0') {
-                    if (ptr->o == NULL) ptr->o = malloc(sizeof(struct _oneBitNode));
+                    if (ptr->o == NULL){
+                        ptr->o = malloc(sizeof(struct _oneBitNode));
+                        //printf("Novo0(%c) %p\n", c, ptr->o);
+                        ptr->o->nextHop = -1;
+                    }
                     ptr = ptr->o;
-                    ptr->nextHop = -1;
                 }
                 else if (c == '1') {
-                    if (ptr->l == NULL) ptr->l = malloc(sizeof(struct _oneBitNode));
+                    if (ptr->l == NULL){
+                        //printf("Novo1(%c) %p\n",c, ptr->l);   
+                        ptr->l = malloc(sizeof(struct _oneBitNode));
+                        ptr->l->nextHop = -1;
+                    }
                     ptr = ptr->l;
-                    ptr->nextHop = -1;
                 }
                 else if (c == '\t' || c == ' ') {
                     // Only tabulations and spaces should seperate the prefix and next hop values.
@@ -112,12 +203,13 @@ oneBitNode* PrefixTree(char* filename){
                     exit(-1);
                 }
             }
+
             while (!nextHop_read) {
                 c = fgetc(file);
-                
+
                 if (c >= '0' && c <= '9') {
                     if (ptr->nextHop < 0) ptr->nextHop = 0;
-                    ptr->nextHop = 10*(ptr->nextHop) + (int)c;
+                    ptr->nextHop = 10*(ptr->nextHop) + atoi(&c);
                 }
                 else if (c == '\t' || c == ' ') {
                     // do nothing...
@@ -138,7 +230,9 @@ oneBitNode* PrefixTree(char* filename){
             
             prefix_read = 0;
             nextHop_read = 0;
-
+            ptr = root;
+            //printTree2(root);
+            
         } while (!file_read);
         
         fclose(file);
@@ -152,18 +246,6 @@ oneBitNode* PrefixTree(char* filename){
     return root;
 }
 
-void printTree(oneBitNode *root, int depth){
-
-    if(root != NULL){
-
-        printTree(root->o, depth+1);
-        printf("value = %d, depth = %d\n", root->nextHop, depth );
-        printTree(root->l, depth+1);
-        
-    }
-    return;
-
-}
 
 void PrintTable(oneBitNode* root){
 
@@ -198,7 +280,7 @@ int LookUp(oneBitNode* root, char* address){
     oneBitNode* nextNode = NULL;
 
     while(currentNode != NULL){
-        printf("depth = %d\n", depth);    
+        //printf("depth = %d\n", depth);    
         if(currentNode->nextHop != -1){
             nextHop = currentNode->nextHop;
         }

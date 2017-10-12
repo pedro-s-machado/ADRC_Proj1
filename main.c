@@ -33,7 +33,7 @@ int main(int argc, const char * argv[]) {
         else if(line[0] == 'p') InsertPrefix(NULL, testPrefix, 3);
         else if(line[0] == 'n'){
             root = PrefixTree("PrefixTable.txt");
-            printTree(root, 0);
+            //printTree2(root);
         }
         else if(line[0] == 'f') printf("Next Hop for %s is %d\n", testPrefix, LookUp(root, testPrefix));
         
