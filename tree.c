@@ -308,11 +308,14 @@ int LookUp1(oneBitNode* root, char* address){
 
     int nextHop = -1;
     int depth = 0;
+    int size;
 
     oneBitNode* currentNode = root;
     oneBitNode* nextNode = NULL;
 
-    while(currentNode != NULL){
+    for(size=0;address[size]!='\0'; size++);
+
+    while(currentNode != NULL && depth <= size){
         
         if(currentNode->nextHop != -1){
             nextHop = currentNode->nextHop;
@@ -325,7 +328,8 @@ int LookUp1(oneBitNode* root, char* address){
             nextNode = currentNode->l;
 
         }else{
-            printf("Address is not binary!\n");
+            if(depth != size)
+                printf("Address is not binary!(%c, %d)\n", address[depth], depth);
         }
 
         currentNode = nextNode;
@@ -395,7 +399,32 @@ oneBitNode* InsertPrefix(oneBitNode* root, char prefix[17], int nextHop){
 
 
 oneBitNode* DeletePrefix(oneBitNode* root, char* prefix){
-    return NULL;
+    
+ /*   
+    oneBitNode * currentNode = root;
+
+    while(currentNode != NULL){
+        
+        if(currentNode->nextHop != -1){
+            nextHop = currentNode->nextHop;
+        }
+
+        if(address[depth] == '0'){
+            nextNode = currentNode->o;
+        
+        }else if(address[depth] == '1'){
+            nextNode = currentNode->l;
+
+        }else{
+            printf("Address is not binary!\n");
+        }
+
+        currentNode = nextNode;
+        depth++;
+    }
+    */
+    return root;
+
 }
 
 twoBitNode* BinaryToTwoBit(oneBitNode* root){

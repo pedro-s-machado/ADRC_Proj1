@@ -23,7 +23,7 @@ int main(int argc, const char * argv[]) {
 
     oneBitNode * root = NULL;
     char testInsert[17] ="010";
-    char testPrefix[17] = "0100000000000000";
+    char testPrefix[17] = "001";
     
     do {
         printf(" >");
