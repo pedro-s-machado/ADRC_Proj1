@@ -10,7 +10,7 @@ typedef struct _prefix Prefix;
 // Tobias
 oneBitNode* PrefixTree(char* );
 
-struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefix *list);
+struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefix *list, struct _oneBitNode *root);
 void free_DFSlist(struct _prefix *list);
 
 void PrintTable(oneBitNode* root);

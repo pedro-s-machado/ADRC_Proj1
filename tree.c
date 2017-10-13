@@ -255,7 +255,7 @@ oneBitNode* PrefixTree(char* filename){
     return root;
 }
 
-struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefix *list) {
+struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefix *list, struct _oneBitNode *root) {
     int i, j, k;
     for (i = 0 ; i < 16 ; i++)
         if (prefixDigits[i] < 0)
@@ -268,8 +268,9 @@ struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefi
             else if (prefixDigits[j] == 0)
                 list->prefix[j] = '0';
             else
-                list->prefix[j] = '#';
+                list->prefix[j] = '-';
         }
+        list->nexthop = ptr->nextHop;
         list->next = malloc(sizeof(struct _prefix));
         for (k = 0 ; k < 16 ; k++)
             list->next->prefix[k] = '#';
@@ -279,11 +280,11 @@ struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefi
     }
     if (ptr->o != NULL) {
         prefixDigits[i] = 0;
-        list = DFS(ptr->o, prefixDigits, list);
+        list = DFS(ptr->o, prefixDigits, list, root);
     }
     if (ptr->l != NULL) {
         prefixDigits[i] = 1;
-        list = DFS(ptr->o, prefixDigits, list);
+        list = DFS(ptr->l, prefixDigits, list, root);
     }
     return list;
     
@@ -300,20 +301,19 @@ void PrintTable(oneBitNode* root){
     int prefixDigits[16];
     struct _prefix *list = malloc(sizeof(struct _prefix)), *ptr = NULL;
     for (int k = 0 ; k < 16 ; k++)
-        list->prefix[k] = '#';
+        list->prefix[k] = '-';
     list->nexthop = -1;
     list->next = NULL;
     for (int i = 0 ; i < 16 ; i++)
         prefixDigits[i] = -1;
     
-    DFS(root, prefixDigits, list);
+    DFS(root, prefixDigits, list, root);
     
     // Listing
     ptr = list;
     while (ptr->next != NULL) {
         for (int i = 0 ; i < 16 ; i++)
-            if (ptr->prefix[i] == '0' || ptr->prefix[i] == '1')
-                printf("%c", ptr->prefix[i]);
+            printf("%c", ptr->prefix[i]);
         printf("\t\t");
         printf("%d\n", ptr->nexthop);
         ptr = ptr->next;
