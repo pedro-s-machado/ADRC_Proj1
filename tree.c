@@ -255,7 +255,7 @@ oneBitNode* PrefixTree(char* filename){
     return root;
 }
 
-struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefix *list, struct _oneBitNode *root) {
+struct _prefix *listing(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefix *list, struct _oneBitNode *root) {
     int i, j, k;
     for (i = 0 ; i < 16 ; i++)
         if (prefixDigits[i] < 0)
@@ -280,11 +280,11 @@ struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefi
     }
     if (ptr->o != NULL) {
         prefixDigits[i] = 0;
-        list = DFS(ptr->o, prefixDigits, list, root);
+        list = listing(ptr->o, prefixDigits, list, root);
     }
     if (ptr->l != NULL) {
         prefixDigits[i] = 1;
-        list = DFS(ptr->l, prefixDigits, list, root);
+        list = listing(ptr->l, prefixDigits, list, root);
     }
     return list;
     
@@ -293,7 +293,7 @@ struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefi
 void free_DFSlist(struct _prefix *list) {
     if (list->next != NULL)
         free_DFSlist(list->next);
-    free (list);
+    free(list);
 }
 
 void PrintTable(oneBitNode* root){
@@ -307,7 +307,7 @@ void PrintTable(oneBitNode* root){
     for (int i = 0 ; i < 16 ; i++)
         prefixDigits[i] = -1;
     
-    DFS(root, prefixDigits, list, root);
+    listing(root, prefixDigits, list, root);
     
     // Listing
     ptr = list;
