@@ -318,31 +318,32 @@ void free_DFSlist(struct _prefix *list) {
 }
 
 void PrintTable(oneBitNode* root){
-    
-    int *prefixDigits = malloc(sizeof(int)*16);
-    struct _prefix *list = malloc(sizeof(struct _prefix)), *ptr = NULL;
-    for (int k = 0 ; k < 16 ; k++)
-        list->prefix[k] = '-';
-    list->nexthop = -1;
-    list->next = NULL;
-    for (int i = 0 ; i < 16 ; i++)
-        prefixDigits[i] = -1;
-    
-    listing(root, prefixDigits, list);
-    
-    // Listing
-    printf("Prefix\t\t\t\tNext Hop\n");
-    ptr = list;
-    while (ptr->next != NULL) {
+    if (root != NULL) {
+        int *prefixDigits = malloc(sizeof(int)*16);
+        struct _prefix *list = malloc(sizeof(struct _prefix)), *ptr = NULL;
+        for (int k = 0 ; k < 16 ; k++)
+            list->prefix[k] = '-';
+        list->nexthop = -1;
+        list->next = NULL;
         for (int i = 0 ; i < 16 ; i++)
-            printf("%c", ptr->prefix[i]);
-        printf("\t\t");
-        printf("%d\n", ptr->nexthop);
-        ptr = ptr->next;
+            prefixDigits[i] = -1;
+        
+        listing(root, prefixDigits, list);
+        
+        // Listing
+        printf("Prefix\t\t\t\tNext Hop\n");
+        ptr = list;
+        while (ptr->next != NULL) {
+            for (int i = 0 ; i < 16 ; i++)
+                printf("%c", ptr->prefix[i]);
+            printf("\t\t");
+            printf("%d\n", ptr->nexthop);
+            ptr = ptr->next;
+        }
+        
+        // Freeing the memory used by the list of prefixes
+        free_DFSlist(list);
     }
-    
-    // Freeing the memory used by the list of prefixes
-    free_DFSlist(list);
 }
 
 int LookUp(oneBitNode* root, char* address){
@@ -642,29 +643,31 @@ struct _prefix *listing2(struct _twoBitNode *ptr, int *prefixDigits, struct _pre
 }
 
 void PrintTableEven(twoBitNode* root){
-    
-    int *prefixDigits = malloc(sizeof(int)*16);
-    struct _prefix *list = malloc(sizeof(struct _prefix)), *ptr = NULL;
-    for (int k = 0 ; k < 16 ; k++)
-        list->prefix[k] = '-';
-    list->nexthop = -1;
-    list->next = NULL;
-    for (int i = 0 ; i < 16 ; i++)
-        prefixDigits[i] = -1;
-    
-    listing2(root, prefixDigits, list);
-    
-    // Listing
-    printf("Prefix\t\t\t\tNext Hop\n");
-    ptr = list;
-    while (ptr->next != NULL) {
+    if (root != NULL) {
+        
+        int *prefixDigits = malloc(sizeof(int)*16);
+        struct _prefix *list = malloc(sizeof(struct _prefix)), *ptr = NULL;
+        for (int k = 0 ; k < 16 ; k++)
+            list->prefix[k] = '-';
+        list->nexthop = -1;
+        list->next = NULL;
         for (int i = 0 ; i < 16 ; i++)
-            printf("%c", ptr->prefix[i]);
-        printf("\t\t");
-        printf("%d\n", ptr->nexthop);
-        ptr = ptr->next;
+            prefixDigits[i] = -1;
+        
+        listing2(root, prefixDigits, list);
+        
+        // Listing
+        printf("Prefix\t\t\t\tNext Hop\n");
+        ptr = list;
+        while (ptr->next != NULL) {
+            for (int i = 0 ; i < 16 ; i++)
+                printf("%c", ptr->prefix[i]);
+            printf("\t\t");
+            printf("%d\n", ptr->nexthop);
+            ptr = ptr->next;
+        }
+        
+        // Freeing the memory used by the list of prefixes
+        free_DFSlist(list);
     }
-    
-    // Freeing the memory used by the list of prefixes
-    free_DFSlist(list);
 }
