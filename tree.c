@@ -508,12 +508,15 @@ oneBitNode* DeletePrefix(oneBitNode* root, char* prefix){
 
 }
 
-twoBitNode* BinaryToTwoBit(oneBitNode* ptr){
+twoBitNode* BinaryToTwoBit(oneBitNode* ptr, int parent_nextHop){
     if (ptr == NULL)
         return NULL;
     
     struct _twoBitNode *ptr2 = malloc(sizeof(struct _twoBitNode));
-    ptr2->nextHop = ptr->nextHop;
+    if (ptr->nextHop < 0)
+        ptr2->nextHop = parent_nextHop;
+    else
+        ptr2->nextHop = ptr->nextHop;
     ptr2->oo = NULL;
     ptr2->ol = NULL;
     ptr2->ll = NULL;
@@ -521,7 +524,7 @@ twoBitNode* BinaryToTwoBit(oneBitNode* ptr){
     
     if (ptr->o != NULL) {
         if (ptr->o->o != NULL)
-            ptr2->oo = BinaryToTwoBit(ptr->o->o);
+            ptr2->oo = BinaryToTwoBit(ptr->o->o, ptr->o->nextHop);
         else {
             ptr2->oo = malloc(sizeof(struct _twoBitNode));
             ptr2->oo->nextHop = ptr->o->nextHop;
@@ -531,7 +534,7 @@ twoBitNode* BinaryToTwoBit(oneBitNode* ptr){
             ptr2->oo->ll = NULL;
         }
         if (ptr->o->l != NULL)
-            ptr2->ol = BinaryToTwoBit(ptr->o->l);
+            ptr2->ol = BinaryToTwoBit(ptr->o->l, ptr->o->nextHop);
         else {
             ptr2->ol = malloc(sizeof(struct _twoBitNode));
             ptr2->ol->nextHop = ptr->o->nextHop;
@@ -543,7 +546,7 @@ twoBitNode* BinaryToTwoBit(oneBitNode* ptr){
     }
     if (ptr->l != NULL) {
         if (ptr->l->o != NULL)
-            ptr2->lo = BinaryToTwoBit(ptr->l->o);
+            ptr2->lo = BinaryToTwoBit(ptr->l->o, ptr->l->nextHop);
         else {
             ptr2->lo = malloc(sizeof(struct _twoBitNode));
             ptr2->lo->nextHop = ptr->l->nextHop;
@@ -553,7 +556,7 @@ twoBitNode* BinaryToTwoBit(oneBitNode* ptr){
             ptr2->lo->ll = NULL;
         }
         if (ptr->l->l != NULL)
-            ptr2->ll = BinaryToTwoBit(ptr->l->l);
+            ptr2->ll = BinaryToTwoBit(ptr->l->l, ptr->l->nextHop);
         else {
             ptr2->ll = malloc(sizeof(struct _twoBitNode));
             ptr2->ll->nextHop = ptr->l->nextHop;

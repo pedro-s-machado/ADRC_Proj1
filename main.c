@@ -38,7 +38,7 @@ int main(int argc, const char * argv[]) {
         else if(line[0] == 'f') printf("Next Hop for %s is %d\n", testPrefix, LookUp1(root, testPrefix));
         else if(line[0] == 'd') root = DeletePrefix(root, testInsert);
         else if(line[0] == 't') PrintTable(root);
-        else if(line[0] == 'y') root2 = BinaryToTwoBit(root);
+        else if(line[0] == 'y') root2 = BinaryToTwoBit(root, -1);
 
     } while (status);
     

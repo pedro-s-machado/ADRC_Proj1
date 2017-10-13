@@ -22,7 +22,7 @@ oneBitNode* InsertPrefix(oneBitNode* root, char prefix[16], int nextHop);
 
 oneBitNode* DeletePrefix(oneBitNode* root, char* prefix);
 
-twoBitNode* BinaryToTwoBit(oneBitNode* root);
+twoBitNode* BinaryToTwoBit(oneBitNode* , int );
 
 void PrintTableEven(twoBitNode* root);
 
