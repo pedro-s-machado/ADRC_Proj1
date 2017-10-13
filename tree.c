@@ -21,7 +21,7 @@ typedef struct List
 {
     oneBitNode *elem;
     struct List *next;
-
+    
 }List;
 
 typedef struct List1
@@ -30,6 +30,14 @@ typedef struct List1
     int side;
     struct List1 *next;
 }List1;
+
+typedef struct _prefix
+{
+    char prefix[16];
+    int nexthop;
+    struct _prefix *next;
+    
+}Prefix;
 
 
 //Inserts elem in list after 'here' 
@@ -247,10 +255,69 @@ oneBitNode* PrefixTree(char* filename){
     return root;
 }
 
+struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefix *list) {
+    int i, j;
+    for (i = 0 ; i < 16 ; i++)
+        if (prefixDigits[i] < 0)
+            break; // We are at depth i in the tree
+    if (ptr->nextHop >= 0) {
+        // Found a prefix
+        for (j = 0 ; j < 16 ; j++)
+            list->prefix[j] = prefixDigits[j];
+        list->next = malloc(sizeof(struct _prefix));
+        list->next->prefix[0] = -1;
+        list->next->nexthop = -1;
+        list->next->next = NULL;
+        list = list->next;
+    }
+    if (ptr->o != NULL) {
+        prefixDigits[i] = 0;
+        list = DFS(ptr->o, prefixDigits, list);
+    }
+    if (ptr->l != NULL) {
+        prefixDigits[i] = 1;
+        list = DFS(ptr->o, prefixDigits, list);
+    }
+    return list;
+    
+}
+
+void free_DFSlist(struct _prefix *list) {
+    if (list->next != NULL)
+        free_DFSlist(list->next);
+    free (list);
+}
 
 void PrintTable(oneBitNode* root){
-
-    List* top = insertElem(NULL, root);
+    
+    int prefixDigits[16];
+    struct _prefix *list = malloc(sizeof(struct _prefix)), *ptr = NULL;
+    list->prefix[0] = -1;
+    list->nexthop = -1;
+    list->next = NULL;
+    for (int i = 0 ; i < 16 ; i++)
+        prefixDigits[i] = -1;
+    
+    DFS(root, prefixDigits, list);
+    
+    // Listing
+    ptr = list;
+    while (ptr->next != NULL) {
+        for (int i = 0 ; i < 16 ; i++)
+            if (ptr->prefix[i] >= 0)
+                printf("%d", ptr->prefix[i]);
+        printf("\t\t");
+        printf("%d\n", ptr->nexthop);
+        ptr = ptr->next;
+    }
+    
+    // Freeing the memory used by the list of prefixes
+    free_DFSlist(list);
+    
+    
+    
+    
+    /*List* top = insertElem(NULL, root);
  
     List* bottom = top;
 
@@ -269,7 +336,7 @@ void PrintTable(oneBitNode* root){
 
         printf(" ");
 
-    } 
+    } */
 }
 
 int LookUp(oneBitNode* root, char* address){

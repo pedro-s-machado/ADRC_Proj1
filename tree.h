@@ -5,8 +5,13 @@ typedef struct _oneBitNode oneBitNode;
 
 typedef struct _twoBitNode twoBitNode;
 
+typedef struct _prefix Prefix;
+
 // Tobias
 oneBitNode* PrefixTree(char* );
+
+struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefix *list);
+void free_DFSlist(struct _prefix *list);
 
 void PrintTable(oneBitNode* root);
 
