@@ -35,7 +35,8 @@ int main(int argc, const char * argv[]) {
         else if(line[0] == 'p') printTree2(root);
         else if(line[0] == 'o') printTree(root, 0, -1);
         else if(line[0] == 'f') printf("Next Hop for %s is %d\n", testPrefix, LookUp1(root, testPrefix));
-        
+        else if(line[0] == 'd') root = DeletePrefix(root, testInsert);
+
     } while (status);
     
     free(line);

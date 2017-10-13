@@ -400,28 +400,52 @@ oneBitNode* InsertPrefix(oneBitNode* root, char prefix[17], int nextHop){
 
 oneBitNode* DeletePrefix(oneBitNode* root, char* prefix){
     
- /*   
+    int depth = 0;
+    int size;
+
     oneBitNode * currentNode = root;
+    List * head = NULL;
+    List * new;
 
-    while(currentNode != NULL){
-        
-        if(currentNode->nextHop != -1){
-            nextHop = currentNode->nextHop;
-        }
+    for(size=0;prefix[size]!='\0'; size++);
 
-        if(address[depth] == '0'){
-            nextNode = currentNode->o;
+    while(currentNode != NULL && depth <= size){
+    
+        if(prefix[depth] == '0'){
+            currentNode = currentNode->o;
         
-        }else if(address[depth] == '1'){
-            nextNode = currentNode->l;
+        }else if(prefix[depth] == '1'){
+            currentNode = currentNode->l;
 
         }else{
-            printf("Address is not binary!\n");
+            if(depth != size)
+                printf("Address is not binary!(%c, %d)\n", prefix[depth], depth);
         }
 
-        currentNode = nextNode;
         depth++;
+        new = malloc(sizeof(List));
+        new->elem = currentNode;
+        new->next = head;
+
+        head = new;
     }
+
+    //removes prefix next hop value
+    currentNode->nextHop = -1;
+    
+
+    //removes unecessary node of the tree
+    /*
+    while((head != NULL) && (head->elem->nextHop == -1) && (head->elem->o == NULL) && (head->elem->l == NULL)){
+        printf("%d\n", head->elem->nextHop);
+        new = head;
+        head = head->next;
+        printf("\t%p\n", new->elem);
+        free(new->elem);
+        printf("\t%p\n", new->elem);
+        free(new);
+    }
+    printf("%p %p\n", root->o, root->l);
     */
     return root;
 
