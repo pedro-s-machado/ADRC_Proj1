@@ -25,5 +25,7 @@ void printTree(oneBitNode *root, int depth, int s);
 
 void printTree2(oneBitNode *root);
 
+int LookUp1(oneBitNode* root, char* address);
+
 #endif
 

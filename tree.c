@@ -301,10 +301,18 @@ int LookUp(oneBitNode* root, char* address){
     // and returning the one corresponding to the longest prefix for which there is a next hop in the table
     return hops[i];
     
-    
-    
-    
-    /*while(currentNode != NULL){
+}
+
+
+int LookUp1(oneBitNode* root, char* address){
+
+    int nextHop = -1;
+    int depth = 0;
+
+    oneBitNode* currentNode = root;
+    oneBitNode* nextNode = NULL;
+
+    while(currentNode != NULL){
         
         if(currentNode->nextHop != -1){
             nextHop = currentNode->nextHop;
@@ -321,9 +329,11 @@ int LookUp(oneBitNode* root, char* address){
         }
 
         currentNode = nextNode;
-    }*/
-}
+        depth++;
+    }
 
+    return nextHop;
+}
 oneBitNode* InsertPrefix(oneBitNode* root, char* prefix, int nextHop){
     
     oneBitNode *currentNode = root;
