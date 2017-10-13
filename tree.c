@@ -334,7 +334,7 @@ int LookUp1(oneBitNode* root, char* address){
 
     return nextHop;
 }
-oneBitNode* InsertPrefix(oneBitNode* root, char* prefix, int nextHop){
+oneBitNode* InsertPrefix(oneBitNode* root, char prefix[17], int nextHop){
     
     oneBitNode *currentNode = root;
     int depth = 0;
@@ -342,38 +342,43 @@ oneBitNode* InsertPrefix(oneBitNode* root, char* prefix, int nextHop){
 
     for(size=0;prefix[size]!='\0'; size++);
     printf("Prefix Size (%d) \n", size);
-    
-    while(size-1 > depth){
 
-        while(currentNode != NULL){
+    while(depth <= size-1){
+
+        if(prefix[depth] == '0'){
             
-            if(prefix[depth] == '0'){
-                currentNode = currentNode->o;
-            }
-            else if(prefix[depth] == '1'){
-                currentNode = currentNode->l;
-            }
-            else{
-                printf("Address is not binary!\n");
-            }
-
-            depth++;
-        }
-
-        if(depth == size-1){
-            //if exist replace the nextHop value
-            if(currentNode != NULL){
-                currentNode->nextHop = nextHop;
-            }
-            //if doesn't exist create a new node
-            else{
+            if(currentNode->o == NULL){
                 
+                currentNode->o = malloc(sizeof(oneBitNode));
+                currentNode->o->o = NULL;
+                currentNode->o->l = NULL;
+                currentNode->o->nextHop = -1;
             }
+            
+            currentNode = currentNode->o;
+        }
+        else if(prefix[depth] == '1'){
+
+            if(currentNode->l == NULL){
+                
+                currentNode->l = malloc(sizeof(oneBitNode));
+                currentNode->l->o = NULL;
+                currentNode->l->l = NULL;
+                currentNode->l->nextHop = -1;
+            }
+            
+            currentNode = currentNode->l;
         }
         else{
-
+            printf("Address is not binary!(%c, %d)\n", prefix[depth], depth);
         }
+
+        printf("%d\n", depth);
+        depth++;
     }
+
+    currentNode->nextHop = nextHop;
+    
     return root;
 }
 
