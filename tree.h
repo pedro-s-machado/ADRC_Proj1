@@ -30,6 +30,8 @@ void printTree(oneBitNode *root, int depth, int s);
 
 void printTree2(oneBitNode *root);
 
+void print2BTree(twoBitNode *root, int depth, char *s);
+
 int LookUp1(oneBitNode* root, char* address);
 
 #endif

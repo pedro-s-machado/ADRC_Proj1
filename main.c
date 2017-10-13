@@ -39,7 +39,7 @@ int main(int argc, const char * argv[]) {
         else if(line[0] == 'd') root = DeletePrefix(root, testInsert);
         else if(line[0] == 't') PrintTable(root);
         else if(line[0] == 'y') root2 = BinaryToTwoBit(root, -1);
-
+        else if(line[0] == 'z') print2BTree(root2, 0, "top");
     } while (status);
     
     free(line);

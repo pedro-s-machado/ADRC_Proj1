@@ -99,6 +99,22 @@ void printTree(oneBitNode *root, int depth, int s){
 
 }
 
+//Inorder print of the tree
+void print2BTree(twoBitNode *root, int depth, char *s){
+
+    int a = depth +1;
+    if(root != NULL){
+
+        print2BTree(root->oo, a, "00");
+        print2BTree(root->ol, a, "01");
+        printf("nH = %d, depth = %d (side = %s)\n", root->nextHop, depth, s);
+        print2BTree(root->lo, a, "10");
+        print2BTree(root->ll, a, "11");
+        
+    }
+    return;
+
+}
 
 //BreathSearch print of the tree
 void printTree2(oneBitNode *root){
