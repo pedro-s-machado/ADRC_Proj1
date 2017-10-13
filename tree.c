@@ -336,13 +336,23 @@ int LookUp1(oneBitNode* root, char* address){
 }
 oneBitNode* InsertPrefix(oneBitNode* root, char prefix[17], int nextHop){
     
+    //initializes the tree if doesn't exist
+    if(root == NULL){
+    
+        root = malloc(sizeof(oneBitNode));
+        root->o = NULL;
+        root->l = NULL;
+        root->nextHop = -1;
+    }
+
     oneBitNode *currentNode = root;
     int depth = 0;
     int size;
 
-    for(size=0;prefix[size]!='\0'; size++);
-    printf("Prefix Size (%d) \n", size);
+    //finds size of the prefix
+    for(size=0;prefix[size]!='\0'; size++); 
 
+    //goes down the tree creating the path when doens't exist
     while(depth <= size-1){
 
         if(prefix[depth] == '0'){
@@ -377,8 +387,9 @@ oneBitNode* InsertPrefix(oneBitNode* root, char prefix[17], int nextHop){
         depth++;
     }
 
+    //set's the next hop value
     currentNode->nextHop = nextHop;
-    
+
     return root;
 }
 
