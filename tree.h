@@ -11,6 +11,7 @@ typedef struct _prefix Prefix;
 oneBitNode* PrefixTree(char* );
 
 struct _prefix *listing(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefix *list);
+struct _prefix *listing2(struct _twoBitNode *ptr, int *prefixDigits, struct _prefix *list);
 void free_DFSlist(struct _prefix *list);
 
 void PrintTable(oneBitNode* root);

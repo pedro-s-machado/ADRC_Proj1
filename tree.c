@@ -586,6 +586,85 @@ twoBitNode* BinaryToTwoBit(oneBitNode* ptr, int parent_nextHop){
     return ptr2;
 }
 
-void PrintTableEven(twoBitNode* root){
+struct _prefix *listing2(struct _twoBitNode *ptr, int *prefixDigits, struct _prefix *list) {
+    int i, j, k;
+    for (i = 0 ; i < 16 ; i++)
+        if (prefixDigits[i] < 0)
+            break; // We are at depth i in the tree
+    if (ptr->nextHop >= 0) {
+        // Found a prefix
+        for (j = 0 ; j < 16 ; j++) {
+            if (prefixDigits[j] == 1)
+                list->prefix[j] = '1';
+            else if (prefixDigits[j] == 0)
+                list->prefix[j] = '0';
+            else
+                list->prefix[j] = '-';
+        }
+        list->nexthop = ptr->nextHop;
+        list->next = malloc(sizeof(struct _prefix));
+        for (k = 0 ; k < 16 ; k++)
+            list->next->prefix[k] = '#';
+        list->next->nexthop = -1;
+        list->next->next = NULL;
+        list = list->next;
+    }
+    if (ptr->oo != NULL) {
+        prefixDigits[i] = 0;
+        prefixDigits[i+1] = 0;
+        for (k = i+2 ; k < 16 ; k++)
+            prefixDigits[k] = -1;
+        list = listing2(ptr->oo, prefixDigits, list);
+    }
+    if (ptr->ol != NULL) {
+        prefixDigits[i] = 0;
+        prefixDigits[i+1] = 1;
+        for (k = i+2 ; k < 16 ; k++)
+            prefixDigits[k] = -1;
+        list = listing2(ptr->ol, prefixDigits, list);
+    }
+    if (ptr->lo != NULL) {
+        prefixDigits[i] = 1;
+        prefixDigits[i+1] = 0;
+        for (k = i+2 ; k < 16 ; k++)
+            prefixDigits[k] = -1;
+        list = listing2(ptr->lo, prefixDigits, list);
+    }
+    if (ptr->ll != NULL) {
+        prefixDigits[i] = 1;
+        prefixDigits[i+1] = 1;
+        for (k = i+2 ; k < 16 ; k++)
+            prefixDigits[k] = -1;
+        list = listing2(ptr->ll, prefixDigits, list);
+    }
+    return list;
+    
+}
 
+void PrintTableEven(twoBitNode* root){
+    
+    int *prefixDigits = malloc(sizeof(int)*16);
+    struct _prefix *list = malloc(sizeof(struct _prefix)), *ptr = NULL;
+    for (int k = 0 ; k < 16 ; k++)
+        list->prefix[k] = '-';
+    list->nexthop = -1;
+    list->next = NULL;
+    for (int i = 0 ; i < 16 ; i++)
+        prefixDigits[i] = -1;
+    
+    listing2(root, prefixDigits, list);
+    
+    // Listing
+    printf("Prefix\t\t\t\tNext Hop\n");
+    ptr = list;
+    while (ptr->next != NULL) {
+        for (int i = 0 ; i < 16 ; i++)
+            printf("%c", ptr->prefix[i]);
+        printf("\t\t");
+        printf("%d\n", ptr->nexthop);
+        ptr = ptr->next;
+    }
+    
+    // Freeing the memory used by the list of prefixes
+    free_DFSlist(list);
 }

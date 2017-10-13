@@ -40,6 +40,7 @@ int main(int argc, const char * argv[]) {
         else if(line[0] == 't') PrintTable(root);
         else if(line[0] == 'y') root2 = BinaryToTwoBit(root, -1);
         else if(line[0] == 'z') print2BTree(root2, 0, "top");
+        else if(line[0] == 'x') PrintTableEven(root2);
     } while (status);
     
     free(line);
