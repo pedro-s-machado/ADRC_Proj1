@@ -217,7 +217,9 @@ oneBitNode* PrefixTree(char* filename){
                 c = fgetc(file);
                 
                 if (c >= '0' && c <= '9') {
-                    if (ptr->nextHop < 0) ptr->nextHop = 0;
+                    printf("Reading a next hop digit : %c\n", c);
+                    if (ptr->nextHop < 0)
+                        ptr->nextHop = 0;
                     ptr->nextHop = 10*(ptr->nextHop) + atoi(&c);
                 }
                 else if (c == '\t' || c == ' ') {
@@ -314,6 +316,7 @@ void PrintTable(oneBitNode* root){
     listing(root, prefixDigits, list, root);
     
     // Listing
+    printf("Prefix\t\t\t\tNext Hop\n");
     ptr = list;
     while (ptr->next != NULL) {
         for (int i = 0 ; i < 16 ; i++)
@@ -325,30 +328,6 @@ void PrintTable(oneBitNode* root){
     
     // Freeing the memory used by the list of prefixes
     free_DFSlist(list);
-    
-    
-    
-    
-    /*List* top = insertElem(NULL, root);
- 
-    List* bottom = top;
-
-    printf("prefix \t nextHop");
-    
-    while(top != NULL){
-
-        //address path needs to be stored in the list
-        if(top->elem->o != NULL){
-            bottom = insertElem(bottom, top->elem->o);
-        }
-
-        if(top->elem->l != NULL){
-            bottom = insertElem(bottom, top->elem->l);
-        }
-
-        printf(" ");
-
-    } */
 }
 
 int LookUp(oneBitNode* root, char* address){
@@ -466,7 +445,7 @@ oneBitNode* InsertPrefix(oneBitNode* root, char prefix[17], int nextHop){
             printf("Address is not binary!(%c, %d)\n", prefix[depth], depth);
         }
 
-        printf("%d\n", depth);
+        //printf("%d\n", depth);
         depth++;
     }
 
