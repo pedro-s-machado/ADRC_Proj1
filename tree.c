@@ -256,7 +256,7 @@ oneBitNode* PrefixTree(char* filename){
     return root;
 }
 
-struct _prefix *listing(struct _oneBitNode *ptr, int *prefixDigits, struct _prefix *list, struct _oneBitNode *root) {
+struct _prefix *listing(struct _oneBitNode *ptr, int *prefixDigits, struct _prefix *list) {
     int i, j, k;
     for (i = 0 ; i < 16 ; i++)
         if (prefixDigits[i] < 0)
@@ -283,13 +283,13 @@ struct _prefix *listing(struct _oneBitNode *ptr, int *prefixDigits, struct _pref
         prefixDigits[i] = 0;
         for (k = i+1 ; k < 16 ; k++)
             prefixDigits[k] = -1;
-        list = listing(ptr->o, prefixDigits, list, root);
+        list = listing(ptr->o, prefixDigits, list);
     }
     if (ptr->l != NULL) {
         prefixDigits[i] = 1;
         for (k = i+1 ; k < 16 ; k++)
             prefixDigits[k] = -1;
-        list = listing(ptr->l, prefixDigits, list, root);
+        list = listing(ptr->l, prefixDigits, list);
     }
     return list;
     
@@ -312,7 +312,7 @@ void PrintTable(oneBitNode* root){
     for (int i = 0 ; i < 16 ; i++)
         prefixDigits[i] = -1;
     
-    listing(root, prefixDigits, list, root);
+    listing(root, prefixDigits, list);
     
     // Listing
     printf("Prefix\t\t\t\tNext Hop\n");
