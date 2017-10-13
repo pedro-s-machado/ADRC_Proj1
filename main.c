@@ -21,7 +21,8 @@ int main(int argc, const char * argv[]) {
     int status = 1;
     size_t bufsize = 0;
 
-    oneBitNode * root = NULL;
+    oneBitNode *root = NULL;
+    twoBitNode *root2 = NULL;
     char testInsert[17] ="010";
     char testPrefix[17] = "001";
     
@@ -37,6 +38,7 @@ int main(int argc, const char * argv[]) {
         else if(line[0] == 'f') printf("Next Hop for %s is %d\n", testPrefix, LookUp1(root, testPrefix));
         else if(line[0] == 'd') root = DeletePrefix(root, testInsert);
         else if(line[0] == 't') PrintTable(root);
+        else if(line[0] == 'y') root2 = BinaryToTwoBit(root);
 
     } while (status);
     
