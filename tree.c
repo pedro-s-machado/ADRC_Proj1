@@ -256,16 +256,23 @@ oneBitNode* PrefixTree(char* filename){
 }
 
 struct _prefix *DFS(struct _oneBitNode *ptr, int prefixDigits[16], struct _prefix *list) {
-    int i, j;
+    int i, j, k;
     for (i = 0 ; i < 16 ; i++)
         if (prefixDigits[i] < 0)
             break; // We are at depth i in the tree
     if (ptr->nextHop >= 0) {
         // Found a prefix
-        for (j = 0 ; j < 16 ; j++)
-            list->prefix[j] = prefixDigits[j];
+        for (j = 0 ; j < 16 ; j++) {
+            if (prefixDigits[j] == 1)
+                list->prefix[j] = '1';
+            else if (prefixDigits[j] == 0)
+                list->prefix[j] = '0';
+            else
+                list->prefix[j] = '#';
+        }
         list->next = malloc(sizeof(struct _prefix));
-        list->next->prefix[0] = -1;
+        for (k = 0 ; k < 16 ; k++)
+            list->next->prefix[k] = '#';
         list->next->nexthop = -1;
         list->next->next = NULL;
         list = list->next;
@@ -292,7 +299,8 @@ void PrintTable(oneBitNode* root){
     
     int prefixDigits[16];
     struct _prefix *list = malloc(sizeof(struct _prefix)), *ptr = NULL;
-    list->prefix[0] = -1;
+    for (int k = 0 ; k < 16 ; k++)
+        list->prefix[k] = '#';
     list->nexthop = -1;
     list->next = NULL;
     for (int i = 0 ; i < 16 ; i++)
@@ -304,8 +312,8 @@ void PrintTable(oneBitNode* root){
     ptr = list;
     while (ptr->next != NULL) {
         for (int i = 0 ; i < 16 ; i++)
-            if (ptr->prefix[i] >= 0)
-                printf("%d", ptr->prefix[i]);
+            if (ptr->prefix[i] == '0' || ptr->prefix[i] == '1')
+                printf("%c", ptr->prefix[i]);
         printf("\t\t");
         printf("%d\n", ptr->nexthop);
         ptr = ptr->next;
